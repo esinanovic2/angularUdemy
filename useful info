@@ -1,0 +1,21 @@
+npm install -g @angular/cli
+ng new [naziv-aplikacije]
+cd naziv-aplikacije
+ng serve // pokretanje servera sa aplikacijom
+
+novi terminal iz IDE-a, dok ng serve radi u pozadini, u folderu aplikacije:
+ng generate component [naziv] // isto tako može i ng g c - i provjeriti da li je app.module updateovan
+
+- string interpolation, šta god je unutar "{{}}" mora na kraju biti string ili se pretvoriti u string pa čak i funkcija koja vraća string
+
+property binding [propertyName] = "propertyValue"
+
+za ngModel potrebno je uključiti FormsModule u imports dio app.module.ts
+
+two way binding [(ngModel)] = "propertyValue"
+
+*ngIf = "izraz koji vraća true ili false" - zvjezdica mora ispred jer je structural directive -> mijenja DOM
+
+*ngFor="let arrayItem of Items; let i = index" - način da se dobije index (počinje od 0)
+
+npm install --save bootstrap@3
