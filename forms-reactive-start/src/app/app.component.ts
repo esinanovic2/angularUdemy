@@ -8,7 +8,7 @@ import {promise} from 'selenium-webdriver';
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent implements OnInit{
+export class AppComponent implements OnInit {
   genders = ['male', 'female'];
   signUpForm: FormGroup;
   forbiddenUsernames = ['Chris', 'Anna'];
