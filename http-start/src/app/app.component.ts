@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-
+import {ServerService} from './server.service';
+// firebase link https://udemyangular-bc216.firebaseio.com/
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
@@ -18,6 +19,11 @@ export class AppComponent {
       id: this.generateId()
     }
   ];
+
+  appName = this.serverService.getAppName();
+
+  constructor(private serverService: ServerService) {}
+
   onAddServer(name: string) {
     this.servers.push({
       name: name,
@@ -27,5 +33,21 @@ export class AppComponent {
   }
   private generateId() {
     return Math.round(Math.random() * 10000);
+  }
+
+  onSaveServers() {
+    this.serverService.storeServers(this.servers)
+      .subscribe(
+        (response) => console.log(response),
+        (error) => console.log(error),
+      );
+  }
+
+  onGetServers() {
+    this.serverService.getServers()
+      .subscribe(
+        (servers: any[]) => this.servers = servers,
+        (error) => console.log(error),
+      );
   }
 }
