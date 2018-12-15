@@ -4,22 +4,29 @@ import {RecipeService} from '../recipes/recipe.service';
 import {Response} from '@angular/http';
 import {Recipe} from '../recipes/recipe.model';
 import {map} from 'rxjs/operators';
+import {AuthService} from '../auth/auth.service';
 
 @Injectable()
 export class DataStorageService {
+  token: string;
 // firebase db: https://ng-recipe-book-etf.firebaseio.com/
-  constructor(private http: Http, private recipeService: RecipeService) { }
+  constructor(private http: Http,
+              private recipeService: RecipeService,
+              private authService: AuthService) { }
 
   storeRecipes() {
-    return this.http.put('https://ng-recipe-book-etf.firebaseio.com/recipes.json', this.recipeService.getRecipes());
+    const token = this.authService.getToken();
+    return this.http.put('https://ng-recipe-book-etf.firebaseio.com/recipes.json?auth=' + token, this.recipeService.getRecipes());
   }
 
   getRecipes() {
-    this.http.get('https://ng-recipe-book-etf.firebaseio.com/recipes.json')
+    const token = this.authService.getToken();
+
+    this.http.get('https://ng-recipe-book-etf.firebaseio.com/recipes.json?auth=' + token)
       .pipe(
         map((response: Response) => {
           const recipes: Recipe[] = response.json();
-          for (let recipe of recipes) {
+          for (const recipe of recipes) {
             if (!recipes['ingredients']) {
               console.log(recipe);
               recipe['ingredients'] = [];
@@ -35,4 +42,7 @@ export class DataStorageService {
       );
   }
 
+  isAuthenticated() {
+    return this.token != null;
+  }
 }
